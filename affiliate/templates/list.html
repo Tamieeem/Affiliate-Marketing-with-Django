@@ -1,0 +1,38 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<div class="content-section">
+    <h2>{{ title }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Name</th>
+                <th>Clicks Count</th>
+                <th>Date Listed</th>
+                <th>Affiliate Link</th>  <!-- New column for affiliate link -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for link in affiliate_links %}
+            <tr>
+                <td>{{ link.product.title }}</td>
+                <td>{{ link.name }}</td>
+                <td>{{ link.clicks_count }}</td>
+                <td>{{ link.date_listed }}</td>
+                <td>
+                    <a href="{% url 'promote' link.unique_id %}">Link</a>
+
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No affiliate products found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
+
+
