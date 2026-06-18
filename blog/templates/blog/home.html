@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <div id="posts-container">
+        <script>
+            async function fetchPosts() {
+                try {
+                    const response = await fetch('/api/posts/');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch posts');
+                    }
+        
+                    const posts = await response.json();
+                    const postsContainer = document.getElementById('posts-container');
+        
+                    posts.forEach(post => {
+                        const postElement = document.createElement('article');
+                        postElement.classList.add('media', 'content-section');
+                        postElement.innerHTML = `
+                            <img class="rounded-circle article-img" src="${post.author_profile_image || '/static/default_profile.png'}">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    <a class="mr-2" href="#">${post.author_id}</a>
+                                    <small class="text-muted">${new Date(post.date_listed).toLocaleDateString()}</small>
+                                </div>
+                                <h2><a class="article-title" href="/post/${post.id}/">${post.title}</a></h2>
+                                <p class="article-content">${post.content.substring(0, 150)}...</p>
+                            </div>
+                        `;
+                        postsContainer.appendChild(postElement);
+                    });
+                } catch (error) {
+                    console.error('Error fetching posts:', error);
+                }
+            }
+        
+            fetchPosts();
+        </script>
+    </div>
+{% endblock content %}

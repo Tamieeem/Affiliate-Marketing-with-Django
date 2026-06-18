@@ -1,0 +1,10 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <article class="media content-section">
+        <h2>{{ post.title }}</h2>
+        <p><small>By {{ post.author_id }} on {{ post.date_listed|date:"F d, Y" }}</small></p>
+        <p>{{ post.content }}</p>
+        <a href="{% url 'home' %}">Back to Home</a>
+    </article>
+{% endblock content %}
